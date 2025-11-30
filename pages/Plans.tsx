@@ -10,14 +10,14 @@ export const Plans: React.FC = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
           <div className="inline-block px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-bold text-sm mb-6">
-            Investimento no seu Futuro
+            Investimento de Alto Retorno
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
-            Escolha o plano ideal para a sua jornada
+            Acelere sua carreira com o plano ideal
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
-            Acesso ilimitado a todos os cursos, certificados verificados e mentoria com experts. 
-            Cancele a qualquer momento, sem taxas ocultas.
+            Mais do que cursos, oferecemos um ecossistema completo de formação. 
+            Mentoria, networking e tecnologia de ponta para quem busca o topo.
           </p>
         </div>
 
@@ -52,7 +52,7 @@ export const Plans: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-                  {plan.name === 'Pro Anual' ? 'Cobrado anualmente' : 'Cobrado mensalmente'}
+                  {plan.name === 'Pro Anual' ? 'Cobrado anualmente (R$ 718,80)' : 'Cobrado mensalmente'}
                 </p>
               </div>
               
@@ -84,19 +84,19 @@ export const Plans: React.FC = () => {
         <div className="mt-20 text-center grid grid-cols-2 md:grid-cols-4 gap-8 opacity-70">
            <div>
               <h4 className="font-bold text-3xl text-slate-900 dark:text-white mb-1">7 Dias</h4>
-              <p className="text-sm text-slate-500">Garantia Incondicional</p>
+              <p className="text-sm text-slate-500">Garantia Total</p>
            </div>
            <div>
               <h4 className="font-bold text-3xl text-slate-900 dark:text-white mb-1">SSL</h4>
-              <p className="text-sm text-slate-500">Pagamento Seguro</p>
+              <p className="text-sm text-slate-500">Compra Segura</p>
            </div>
            <div>
               <h4 className="font-bold text-3xl text-slate-900 dark:text-white mb-1">24/7</h4>
-              <p className="text-sm text-slate-500">Suporte Dedicado</p>
+              <p className="text-sm text-slate-500">Suporte Premium</p>
            </div>
            <div>
               <h4 className="font-bold text-3xl text-slate-900 dark:text-white mb-1">Cancel</h4>
-              <p className="text-sm text-slate-500">Cancele quando quiser</p>
+              <p className="text-sm text-slate-500">Sem Multas</p>
            </div>
         </div>
       </div>

@@ -709,32 +709,34 @@ export const PLANS: Plan[] = [
     name: 'Start',
     price: 'Grátis',
     features: [
-      'Acesso a 5 cursos introdutórios',
-      'Certificado de participação',
-      'Acesso à comunidade',
-      'Suporte básico'
+      'Acesso a 3 aulas introdutórias por curso',
+      'Comunidade de alunos (Apenas Leitura)',
+      'Materiais complementares básicos',
+      'Acesso pela Plataforma Web'
     ]
   },
   {
     name: 'Pro Mensal',
-    price: 'R$ 39,90/mês',
+    price: 'R$ 89,90/mês',
     features: [
-      'Acesso ilimitado a +180 cursos',
-      'Certificados verificados',
-      'Projetos práticos avaliados',
-      'Download para assistir offline',
+      'Acesso ilimitado a todos os 180+ cursos',
+      'Certificados com código de validação',
+      'Projetos práticos com correção de IA',
+      'Acesso Offline no App (Android & iOS)',
+      'Suporte técnico prioritário em 24h',
       'Sem fidelidade, cancele quando quiser'
     ]
   },
   {
     name: 'Pro Anual',
-    price: 'R$ 29,90/mês',
+    price: 'R$ 59,90/mês',
     features: [
-      'Economize 25% no plano anual',
-      'Todas as vantagens do Pro Mensal',
-      'Mentoria mensal em grupo',
-      'Acesso antecipado a lançamentos',
-      'Clube de descontos em parceiros'
+      'Economia de R$ 360,00 ao ano',
+      'Todas as vantagens do plano Mensal',
+      'Mentoria de Carreira Individual (1x/mês)',
+      'Análise de LinkedIn e Currículo',
+      'Masterclasses ao vivo com Experts',
+      'Acesso antecipado a novas ferramentas de IA'
     ],
     recommended: true
   }
