@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Clock, BarChart, Star, Check, PlayCircle, Lock, Users, ShieldCheck } from 'lucide-react';
-import { COURSES } from '../constants';
+import { Clock, BarChart, Star, Check, PlayCircle, Lock, Users, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { COURSES, CATEGORIES } from '../constants';
 
 export const CourseDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const course = COURSES.find(c => c.id === id);
+
+  // Encontrar o nome da categoria para o breadcrumb/botão voltar
+  const categoryName = CATEGORIES.find(cat => cat.slug === course?.category)?.name || 'Cursos';
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -23,9 +26,21 @@ export const CourseDetail: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 transition-colors duration-300">
       {/* Course Header */}
-      <div className="bg-slate-900 dark:bg-black text-white pt-16 pb-32 relative">
+      <div className="bg-slate-900 dark:bg-black text-white pt-10 pb-32 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/50 to-purple-900/30"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 animate-fade-in">
+          
+          {/* BOTÃO DE VOLTAR ADICIONADO AQUI */}
+          <Link 
+            to={`/category/${course.category}`}
+            className="inline-flex items-center gap-2 text-indigo-300 hover:text-white mb-8 transition-colors text-sm font-medium group"
+          >
+            <div className="p-2 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors backdrop-blur-sm">
+              <ArrowLeft size={20} />
+            </div>
+            <span>Voltar para {categoryName}</span>
+          </Link>
+
           <div className="flex flex-col md:flex-row gap-12">
             <div className="md:w-2/3 space-y-6">
               <div className="flex flex-wrap items-center gap-3 text-sm font-medium text-indigo-300">

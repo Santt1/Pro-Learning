@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Shield, Clock, Award, Users, Briefcase, ChevronDown, BookOpen, PlayCircle, Star } from 'lucide-react';
+import { ArrowRight, CheckCircle, Shield, Clock, Award, Users, Briefcase, ChevronDown, BookOpen, PlayCircle, Star, Sparkles } from 'lucide-react';
 import { COURSES, CATEGORIES } from '../constants';
 import { CourseCard } from '../components/CourseCard';
 import ParticleBackground from '../components/ParticleBackground';
@@ -17,10 +17,23 @@ export const Home: React.FC = () => {
 
   const recommendedCourses = useMemo(() => {
     if (!user) return [];
-    // Recomenda cursos que o usuário não tem, misturando categorias
-    return COURSES.filter(course => !user.myCourses.includes(course.id))
-      .sort(() => 0.5 - Math.random()) // Shuffle simples
-      .slice(0, 3);
+    
+    // 1. Identificar categorias dos cursos que o usuário já tem
+    const ownedCourseIds = new Set(user.myCourses);
+    const ownedCourses = COURSES.filter(c => ownedCourseIds.has(c.id));
+    const interestedCategories = new Set(ownedCourses.map(c => c.category));
+
+    // 2. Filtrar cursos disponíveis (que o usuário NÃO tem)
+    const availableCourses = COURSES.filter(c => !ownedCourseIds.has(c.id));
+
+    // 3. Ordenar: Prioridade para mesma Categoria > Melhor Avaliação
+    return availableCourses.sort((a, b) => {
+      const aMatch = interestedCategories.has(a.category) ? 1 : 0;
+      const bMatch = interestedCategories.has(b.category) ? 1 : 0;
+
+      if (aMatch !== bMatch) return bMatch - aMatch; // Prioriza categoria de interesse
+      return b.rating - a.rating; // Depois por nota
+    }).slice(0, 3); // Pega os top 3
   }, [user]);
 
   // Landing Page Logic
@@ -34,8 +47,11 @@ export const Home: React.FC = () => {
   if (isAuthenticated && user) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20">
-        <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
+           {/* Decorative background element for dashboard header */}
+           <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+           
+           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
               <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">
                  Bem-vindo de volta, <span className="text-indigo-600 dark:text-indigo-400">{user.name.split(' ')[0]}</span>! 👋
               </h1>
@@ -58,29 +74,34 @@ export const Home: React.FC = () => {
 
               {myCourses.length > 0 ? (
                  <div className="grid md:grid-cols-2 gap-6">
-                    {myCourses.map(course => (
-                       <div key={course.id} className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-6 hover:border-indigo-500 transition-colors">
-                          <div className="w-full md:w-48 h-32 rounded-xl overflow-hidden flex-shrink-0 relative group">
-                             <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                             <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <PlayCircle className="text-white" size={32} />
-                             </div>
-                          </div>
-                          <div className="flex-grow flex flex-col justify-between">
-                             <div>
-                                <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide mb-1 block">{course.category}</span>
-                                <h3 className="font-bold text-slate-900 dark:text-white text-lg leading-tight mb-2">{course.title}</h3>
-                                <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 mb-2">
-                                   <div className="bg-green-500 h-2 rounded-full" style={{ width: Math.random() > 0.5 ? '35%' : '12%' }}></div>
-                                </div>
-                                <p className="text-xs text-slate-500 dark:text-slate-400">Progresso: {Math.random() > 0.5 ? '35%' : '12%'} concluído</p>
-                             </div>
-                             <Link to={`/course/${course.id}`} className="mt-4 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1">
-                                Continuar assistindo <ArrowRight size={16} />
-                             </Link>
-                          </div>
-                       </div>
-                    ))}
+                    {myCourses.map(course => {
+                       // Gera um progresso determinístico baseado no tamanho do título para não mudar a cada render
+                       const progress = (course.title.length * 7) % 100;
+                       
+                       return (
+                         <div key={course.id} className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-6 hover:border-indigo-500 transition-colors group/card">
+                            <div className="w-full md:w-48 h-32 rounded-xl overflow-hidden flex-shrink-0 relative group">
+                               <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                               <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <PlayCircle className="text-white" size={32} />
+                               </div>
+                            </div>
+                            <div className="flex-grow flex flex-col justify-between">
+                               <div>
+                                  <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide mb-1 block">{course.category}</span>
+                                  <h3 className="font-bold text-slate-900 dark:text-white text-lg leading-tight mb-2 group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-400 transition-colors">{course.title}</h3>
+                                  <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 mb-2 overflow-hidden">
+                                     <div className="bg-green-500 h-2 rounded-full transition-all duration-1000" style={{ width: `${progress}%` }}></div>
+                                  </div>
+                                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Progresso: {progress}% concluído</p>
+                               </div>
+                               <Link to={`/course/${course.id}`} className="mt-4 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1">
+                                  Continuar assistindo <ArrowRight size={16} />
+                               </Link>
+                            </div>
+                         </div>
+                       );
+                    })}
                  </div>
               ) : (
                  <div className="text-center py-12 bg-slate-100 dark:bg-slate-900 rounded-2xl border-dashed border-2 border-slate-300 dark:border-slate-700">
@@ -94,9 +115,12 @@ export const Home: React.FC = () => {
            <section>
               <div className="flex items-center gap-3 mb-6">
                  <div className="p-2 bg-purple-100 dark:bg-purple-900/50 rounded-lg text-purple-600 dark:text-purple-400">
-                    <Star size={24} />
+                    <Sparkles size={24} />
                  </div>
-                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Recomendados para Você</h2>
+                 <div>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Recomendados para Você</h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">Baseado nos seus cursos atuais</p>
+                 </div>
               </div>
               
               <div className="grid md:grid-cols-3 gap-8">

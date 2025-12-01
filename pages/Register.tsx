@@ -1,16 +1,19 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Hexagon, User, Mail, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import ParticleBackground from '../components/ParticleBackground';
+import { useAuth } from '../context/AuthContext';
 
 export const Register: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Register:', formData);
+    register(formData.name, formData.email);
     navigate('/');
   };
 
@@ -38,7 +41,7 @@ export const Register: React.FC = () => {
                   <input 
                     type="text" 
                     required
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all dark:text-white"
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-slate-900 dark:text-white placeholder-slate-400"
                     placeholder="Seu nome"
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
@@ -53,7 +56,7 @@ export const Register: React.FC = () => {
                   <input 
                     type="email" 
                     required
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all dark:text-white"
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-slate-900 dark:text-white placeholder-slate-400"
                     placeholder="seu@email.com"
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
@@ -68,7 +71,7 @@ export const Register: React.FC = () => {
                   <input 
                     type={showPassword ? "text" : "password"} 
                     required
-                    className="w-full pl-10 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all dark:text-white"
+                    className="w-full pl-10 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-slate-900 dark:text-white placeholder-slate-400"
                     placeholder="Mínimo 8 caracteres"
                     value={formData.password}
                     onChange={e => setFormData({...formData, password: e.target.value})}

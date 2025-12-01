@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, BookOpen, Facebook, Twitter, Instagram, Linkedin, Sun, Moon, Phone, Mail, MapPin, GraduationCap, Hexagon } from 'lucide-react';
+import { Menu, X, Facebook, Twitter, Instagram, Linkedin, Sun, Moon, Phone, Mail, MapPin, GraduationCap, Hexagon, UserCircle, LogOut } from 'lucide-react';
 import { AiAssistant } from './AiAssistant';
+import { useAuth } from '../context/AuthContext';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const location = useLocation();
+  const { user, isAuthenticated, logout } = useAuth();
 
   // Dark Mode Logic - Default to LIGHT MODE
   useEffect(() => {
-    // Verifica apenas se o usuário explicitamente escolheu dark anteriormente.
-    // Caso contrário, força o tema light (White Mode) como padrão.
     if (localStorage.theme === 'dark') {
       setIsDark(true);
       document.documentElement.classList.add('dark');
     } else {
       setIsDark(false);
       document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light'; // Garante que a preferência fique salva
+      localStorage.theme = 'light';
     }
   }, []);
 
@@ -80,10 +80,28 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               
               <div className="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
 
-              <Link to="/login" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold">Login</Link>
-              <Link to="/register" className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2.5 rounded-full font-bold hover:shadow-lg hover:shadow-indigo-500/25 transition-all transform hover:-translate-y-0.5">
-                Criar Conta
-              </Link>
+              {isAuthenticated && user ? (
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                    <UserCircle size={24} />
+                    <span className="font-semibold">{user.name.split(' ')[0]}</span>
+                  </div>
+                  <button 
+                    onClick={logout}
+                    className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-full transition-colors"
+                    title="Sair"
+                  >
+                    <LogOut size={20} />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Link to="/login" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold">Login</Link>
+                  <Link to="/register" className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2.5 rounded-full font-bold hover:shadow-lg hover:shadow-indigo-500/25 transition-all transform hover:-translate-y-0.5">
+                    Criar Conta
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -112,11 +130,25 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               <Link to="/categories" className="block py-3 px-4 text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Cursos</Link>
               <Link to="/plans" className="block py-3 px-4 text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Planos</Link>
               <Link to="/info" className="block py-3 px-4 text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Sobre & Dados</Link>
+              
               <div className="border-t border-slate-100 dark:border-slate-800 my-4 pt-4 space-y-3">
-                <Link to="/login" className="block w-full text-center py-3 text-slate-600 dark:text-slate-300 font-semibold" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-                <Link to="/register" className="block w-full text-center bg-indigo-600 text-white py-3.5 rounded-xl font-bold shadow-md" onClick={() => setIsMobileMenuOpen(false)}>
-                  Criar Conta
-                </Link>
+                {isAuthenticated && user ? (
+                  <>
+                    <div className="px-4 py-2 flex items-center gap-3 text-slate-800 dark:text-white font-bold">
+                       <UserCircle size={24} /> Olá, {user.name}
+                    </div>
+                    <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="w-full text-left px-4 py-3 text-red-500 font-semibold hover:bg-red-50 rounded-xl transition-colors flex items-center gap-2">
+                       <LogOut size={18} /> Sair da conta
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="block w-full text-center py-3 text-slate-600 dark:text-slate-300 font-semibold" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+                    <Link to="/register" className="block w-full text-center bg-indigo-600 text-white py-3.5 rounded-xl font-bold shadow-md" onClick={() => setIsMobileMenuOpen(false)}>
+                      Criar Conta
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
