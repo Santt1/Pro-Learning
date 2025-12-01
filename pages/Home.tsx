@@ -35,7 +35,7 @@ export const Home: React.FC = () => {
           
           <p className="text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
             Domine IA, Programação e Design com a plataforma mais avançada do mercado. 
-            Mais de 180 cursos com certificados válidos.
+            Mais de 50 cursos com certificados válidos.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-5 w-full justify-center">
@@ -57,7 +57,7 @@ export const Home: React.FC = () => {
          <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 border border-slate-100 dark:border-slate-700 grid grid-cols-2 md:grid-cols-4 gap-8 backdrop-blur-xl bg-opacity-90 dark:bg-opacity-90">
             {[
               { val: '50k+', label: 'Alunos Impactados', icon: Users, color: 'text-blue-500' },
-              { val: '180+', label: 'Cursos Completos', icon: Briefcase, color: 'text-purple-500' },
+              { val: '50+', label: 'Cursos Completos', icon: Briefcase, color: 'text-purple-500' },
               { val: '4.9', label: 'Avaliação Média', icon: Award, color: 'text-yellow-500' },
               { val: '24/7', label: 'Suporte Humano', icon: Clock, color: 'text-green-500' },
             ].map((stat, i) => (

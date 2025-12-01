@@ -169,7 +169,7 @@ export const Info: React.FC = () => {
                  {[
                    { label: 'Alunos Ativos', value: '+50k', icon: Users, color: 'text-blue-500' },
                    { label: 'Países', value: '12', icon: Building, color: 'text-green-500' },
-                   { label: 'Cursos', value: '+180', icon: BookOpen, color: 'text-purple-500' },
+                   { label: 'Cursos', value: '+50', icon: BookOpen, color: 'text-purple-500' },
                    { label: 'Satisfação', value: '4.9/5', icon: Award, color: 'text-yellow-500' },
                  ].map((stat, i) => (
                    <div key={i} className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl text-center hover:-translate-y-2 transition-transform duration-300">

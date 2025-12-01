@@ -8,15 +8,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [isDark, setIsDark] = useState(false);
   const location = useLocation();
 
-  // Dark Mode Logic
+  // Dark Mode Logic - Default to LIGHT MODE
   useEffect(() => {
-    // Check system preference or local storage
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    // Verifica apenas se o usuário explicitamente escolheu dark anteriormente.
+    // Caso contrário, força o tema light (White Mode) como padrão.
+    if (localStorage.theme === 'dark') {
       setIsDark(true);
       document.documentElement.classList.add('dark');
     } else {
       setIsDark(false);
       document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light'; // Garante que a preferência fique salva
     }
   }, []);
 
