@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { SlidersHorizontal, ChevronDown, ArrowLeft, Star, TrendingUp, DollarSign, Filter, X } from 'lucide-react';
+import { SlidersHorizontal, ArrowLeft, TrendingUp, Filter, X } from 'lucide-react';
 import { COURSES, CATEGORIES } from '../constants';
 import { CourseCard } from '../components/CourseCard';
 import { CourseLevel } from '../types';
 
-type SortOption = 'relevance' | 'rating' | 'priceAsc' | 'priceDesc';
-type PriceFilter = 'all' | 'free' | 'paid';
+type SortOption = 'relevance' | 'rating';
 
 export const CategoryDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -14,7 +13,6 @@ export const CategoryDetail: React.FC = () => {
   
   // States for Filtering and Sorting
   const [filterLevel, setFilterLevel] = useState<string>('todos');
-  const [priceFilter, setPriceFilter] = useState<PriceFilter>('all');
   const [sortBy, setSortBy] = useState<SortOption>('relevance');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
@@ -24,24 +22,17 @@ export const CategoryDetail: React.FC = () => {
     let result = COURSES.filter(course => {
       const matchCat = course.category === currentCategory.slug;
       const matchLevel = filterLevel === 'todos' || course.level === filterLevel;
-      
-      let matchPrice = true;
-      if (priceFilter === 'free') matchPrice = course.price === 0;
-      if (priceFilter === 'paid') matchPrice = course.price > 0;
-
-      return matchCat && matchLevel && matchPrice;
+      return matchCat && matchLevel;
     });
 
     // Sorting Logic
     result = result.sort((a, b) => {
       if (sortBy === 'rating') return b.rating - a.rating; // Highest rating first
-      if (sortBy === 'priceAsc') return a.price - b.price; // Cheapest first
-      if (sortBy === 'priceDesc') return b.price - a.price; // Most expensive first
       return 0; // Default relevance (id order or random as generated)
     });
 
     return result;
-  }, [filterLevel, priceFilter, sortBy, currentCategory]);
+  }, [filterLevel, sortBy, currentCategory]);
 
   if (!currentCategory) {
     return (
@@ -106,8 +97,6 @@ export const CategoryDetail: React.FC = () => {
                          {[
                             { id: 'relevance', label: 'Mais Relevantes' },
                             { id: 'rating', label: 'Melhores Avaliados' },
-                            { id: 'priceAsc', label: 'Menor Preço' },
-                            { id: 'priceDesc', label: 'Maior Preço' }
                          ].map((opt) => (
                             <label key={opt.id} className="flex items-center gap-3 cursor-pointer group">
                                <input 
@@ -122,27 +111,6 @@ export const CategoryDetail: React.FC = () => {
                                </span>
                             </label>
                          ))}
-                      </div>
-                   </div>
-
-                   {/* Price Filter */}
-                   <div>
-                      <h4 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                         <DollarSign size={16} className="text-indigo-500" /> Preço
-                      </h4>
-                      <div className="space-y-2">
-                         <label className="flex items-center gap-3 cursor-pointer group">
-                            <input type="radio" name="price" checked={priceFilter === 'all'} onChange={() => setPriceFilter('all')} className="w-4 h-4 text-indigo-600" />
-                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white">Todos</span>
-                         </label>
-                         <label className="flex items-center gap-3 cursor-pointer group">
-                            <input type="radio" name="price" checked={priceFilter === 'free'} onChange={() => setPriceFilter('free')} className="w-4 h-4 text-indigo-600" />
-                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white">Gratuitos</span>
-                         </label>
-                         <label className="flex items-center gap-3 cursor-pointer group">
-                            <input type="radio" name="price" checked={priceFilter === 'paid'} onChange={() => setPriceFilter('paid')} className="w-4 h-4 text-indigo-600" />
-                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white">Pagos</span>
-                         </label>
                       </div>
                    </div>
 
@@ -202,7 +170,6 @@ export const CategoryDetail: React.FC = () => {
                    <button 
                       onClick={() => {
                          setFilterLevel('todos');
-                         setPriceFilter('all');
                          setSortBy('relevance');
                       }}
                       className="text-indigo-600 dark:text-indigo-400 hover:underline font-bold"

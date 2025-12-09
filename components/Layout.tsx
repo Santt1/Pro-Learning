@@ -65,7 +65,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <nav className="hidden md:flex space-x-10 items-center">
               <Link to="/" className={isActive('/')}>Início</Link>
               <Link to="/categories" className={isActive('/categories')}>Cursos</Link>
-              <Link to="/plans" className={isActive('/plans')}>Planos</Link>
               <Link to="/info" className={isActive('/info')}>Sobre & Dados</Link>
             </nav>
 
@@ -128,7 +127,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <div className="px-6 pt-4 pb-8 space-y-3">
               <Link to="/" className="block py-3 px-4 text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Início</Link>
               <Link to="/categories" className="block py-3 px-4 text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Cursos</Link>
-              <Link to="/plans" className="block py-3 px-4 text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Planos</Link>
               <Link to="/info" className="block py-3 px-4 text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Sobre & Dados</Link>
               
               <div className="border-t border-slate-100 dark:border-slate-800 my-4 pt-4 space-y-3">
@@ -188,7 +186,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               <ul className="space-y-4 text-sm">
                 <li><Link to="/" className="text-slate-400 hover:text-indigo-400 hover:pl-2 transition-all block">Página Inicial</Link></li>
                 <li><Link to="/categories" className="text-slate-400 hover:text-indigo-400 hover:pl-2 transition-all block">Todos os Cursos</Link></li>
-                <li><Link to="/plans" className="text-slate-400 hover:text-indigo-400 hover:pl-2 transition-all block">Planos e Preços</Link></li>
                 <li><Link to="/info" className="text-slate-400 hover:text-indigo-400 hover:pl-2 transition-all block">Dados de IA</Link></li>
               </ul>
             </div>

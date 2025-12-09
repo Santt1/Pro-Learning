@@ -8,7 +8,6 @@ import { CourseDetail } from './pages/CourseDetail';
 import { Info } from './pages/Info';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
-import { Plans } from './pages/Plans';
 import { AuthProvider } from './context/AuthContext';
 
 const App: React.FC = () => {
@@ -20,7 +19,6 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/category/:slug" element={<CategoryDetail />} />
-            <Route path="/plans" element={<Plans />} />
             <Route path="/info" element={<Info />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

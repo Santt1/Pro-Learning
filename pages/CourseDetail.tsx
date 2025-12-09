@@ -135,15 +135,14 @@ export const CourseDetail: React.FC = () => {
                 </div>
                 <div className="p-6">
                   <div className="flex items-end gap-2 mb-6">
-                    <span className="text-3xl font-bold text-slate-900 dark:text-white">R$ {course.price.toFixed(2).replace('.', ',')}</span>
-                    <span className="text-slate-400 line-through mb-1 text-sm">R$ {(course.price * 1.5).toFixed(2).replace('.', ',')}</span>
+                    <span className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">100% Gratuito</span>
                   </div>
 
                   <Link to="/register" className="block w-full bg-indigo-600 text-white text-center py-4 rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-500/30 mb-4 transform hover:-translate-y-1">
                     Matricular-se Agora
                   </Link>
 
-                  <p className="text-center text-xs text-slate-500 dark:text-slate-400 mb-6">Garantia de 7 dias ou seu dinheiro de volta</p>
+                  <p className="text-center text-xs text-slate-500 dark:text-slate-400 mb-6">Comece a estudar imediatamente</p>
 
                   <div className="space-y-4 pt-6 border-t border-slate-100 dark:border-slate-800">
                     <div className="flex items-center gap-3 text-slate-700 dark:text-slate-300 text-sm">
